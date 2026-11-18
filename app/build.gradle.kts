@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
 }
@@ -10,7 +9,7 @@ val versionParts = appVersion.split(".").map { it.toInt() }
 
 android {
     namespace = "com.aarongorka.hassweather"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.aarongorka.hassweather"

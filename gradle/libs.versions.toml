@@ -1,6 +1,5 @@
 [versions]
-agp = "8.7.3"
-kotlin = "2.0.21"
+agp = "9.5.1"
 ktlintPlugin = "12.1.2"
 detekt = "1.23.7"
 work = "2.9.1"
@@ -20,6 +19,5 @@ org-json = { module = "org.json:json", version.ref = "orgJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
