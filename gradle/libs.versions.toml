@@ -2,7 +2,7 @@
 agp = "8.7.3"
 kotlin = "2.0.21"
 ktlintPlugin = "12.1.2"
-detekt = "1.23.7"
+detekt = "1.23.8"
 work = "2.9.1"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
