@@ -4,19 +4,25 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-  pull-requests: write
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions: {}
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
     steps:
       - id: rp
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
@@ -25,25 +31,33 @@ jobs:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.release-please.outputs.tag_name }}
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ needs.release-please.outputs.tag_name }}
-      - uses: actions/setup-java@v4
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
         with:
           gradle-version: "8.9"
+          cache-disabled: true
       - name: Decode keystore
         if: env.KEYSTORE_BASE64 != ''
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-        run: echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+        run: |
+          umask 077
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
       - name: Build release APK
         env:
-          KEYSTORE_FILE: ${{ secrets.KEYSTORE_BASE64 != '' && format('{0}/release.jks', runner.temp) || '' }}
+          KEYSTORE_FILE: ${{ env.KEYSTORE_BASE64 != '' && format('{0}/release.jks', runner.temp) || '' }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -51,7 +65,9 @@ jobs:
       - name: Attach APK
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ needs.release-please.outputs.tag_name }}
         run: |
           cp app/build/outputs/apk/release/*.apk "hass-weather-${TAG}.apk"
-          gh release upload "$TAG" "hass-weather-${TAG}.apk" --clobber
+          gh release upload "$TAG" "hass-weather-${TAG}.apk" --clobber --repo "$GITHUB_REPOSITORY"
+      - name: Remove keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks"
