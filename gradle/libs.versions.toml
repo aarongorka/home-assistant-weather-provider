@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.3"
-kotlin = "2.0.21"
+kotlin = "2.4.21"
 ktlintPlugin = "12.1.2"
 detekt = "1.23.7"
 work = "2.9.1"
