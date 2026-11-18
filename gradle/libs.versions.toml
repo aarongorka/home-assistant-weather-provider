@@ -1,14 +1,14 @@
 [versions]
-agp = "8.7.3"
-kotlin = "2.0.21"
-ktlintPlugin = "12.1.2"
-detekt = "1.23.7"
-work = "2.9.1"
-coreKtx = "1.13.1"
-appcompat = "1.7.0"
-material = "1.12.0"
+agp = "9.5.1"
+kotlin = "2.4.21"
+ktlintPlugin = "14.2.0"
+detekt = "1.23.8"
+work = "2.12.0"
+coreKtx = "1.19.1"
+appcompat = "1.8.0"
+material = "1.14.0"
 junit = "4.13.2"
-orgJson = "20240303"
+orgJson = "20260814"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
