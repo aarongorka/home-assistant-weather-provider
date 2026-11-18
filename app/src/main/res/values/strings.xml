@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HA Weather Provider</string>
+    <string name="intro">Sends Home Assistant weather to Gadgetbridge.</string>
+    <string name="hint_url">Home Assistant URL</string>
+    <string name="hint_token">Long-lived access token</string>
+    <string name="hint_entity">Weather entity</string>
+    <string name="hint_hourly">Hourly weather entity (optional)</string>
+    <string name="hint_location">Location name (optional)</string>
+    <string name="hint_interval">Sync interval (minutes, min 60)</string>
+    <string name="hint_package">Gadgetbridge package (blank = all installed)</string>
+    <string name="action_load">Load entities</string>
+    <string name="action_save">Save and enable sync</string>
+    <string name="action_sync">Sync now</string>
+    <string name="status_never">Not synced yet</string>
+    <string name="saved">Saved. Periodic sync enabled.</string>
+    <string name="detected">Detected Gadgetbridge: %1$s</string>
+    <string name="detected_none">No Gadgetbridge with weather support detected</string>
+    <string name="loaded">Loaded %1$d weather entities</string>
+    <string name="failed">Failed: %1$s</string>
+</resources>
