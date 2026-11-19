@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.2.0...v1.3.0) (2026-11-19)
+
+
+### Features
+
+* searchable, larger entity dropdowns ([fc210aa](https://github.com/aarongorka/home-assistant-weather-provider/commit/fc210aaa36da3824c3f0d13bc5a2fe43acfa4f56))
+
 ## [1.2.0](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.1.0...v1.2.0) (2026-11-19)
 
 
