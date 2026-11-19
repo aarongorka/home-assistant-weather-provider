@@ -1,7 +1,7 @@
 package com.aarongorka.hassweather
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import com.aarongorka.hassweather.databinding.ActivityMainBinding
 import kotlin.concurrent.thread
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.interval.setText(settings.intervalMinutes.toString())
         binding.gbPackage.setText(settings.gadgetbridgePackage)
         showDetected()
+        listOf(binding.entity, binding.hourly, binding.airQuality).forEach(::showAllOnTap)
         showStatus(Settings.loadStatus(this) ?: getString(R.string.status_never))
 
         binding.load.setOnClickListener { loadEntities() }
@@ -58,15 +59,18 @@ class MainActivity : AppCompatActivity() {
             val entities = client.weatherEntities()
             val airQuality = client.airQualityEntities()
             runOnUiThread {
-                val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, entities)
-                binding.entity.setAdapter(adapter)
-                binding.hourly.setAdapter(adapter)
-                binding.airQuality.setAdapter(
-                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, airQuality),
-                )
+                binding.entity.setAdapter(EntityAdapter(this, entities))
+                binding.hourly.setAdapter(EntityAdapter(this, entities))
+                binding.airQuality.setAdapter(EntityAdapter(this, airQuality))
             }
             getString(R.string.loaded, entities.size)
         }
+    }
+
+    private fun showAllOnTap(field: AutoCompleteTextView) {
+        field.threshold = 0
+        field.setOnClickListener { field.showDropDown() }
+        field.setOnFocusChangeListener { _, focused -> if (focused) field.showDropDown() }
     }
 
     private fun showDetected() {
