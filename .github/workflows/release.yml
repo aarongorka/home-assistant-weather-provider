@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: release
@@ -20,12 +21,27 @@ jobs:
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
+      pr_branch: ${{ steps.rp.outputs.pr != '' && fromJSON(steps.rp.outputs.pr).headBranchName || '' }}
     steps:
       - id: rp
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+  # Pushes made with GITHUB_TOKEN don't trigger CI, so run it explicitly on the release PR branch.
+  ci:
+    needs: release-please
+    if: needs.release-please.outputs.pr_branch != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BRANCH: ${{ needs.release-please.outputs.pr_branch }}
+    steps:
+      - run: gh workflow run ci.yml --ref "$BRANCH" --repo "$GITHUB_REPOSITORY"
 
   publish:
     needs: release-please
