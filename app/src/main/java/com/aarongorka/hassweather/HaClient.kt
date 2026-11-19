@@ -20,6 +20,18 @@ class HaClient(baseUrl: String, private val token: String) {
             .sorted()
     }
 
+    fun airQualityEntities(): List<String> {
+        val states = JSONArray(request("GET", "/api/states"))
+        return (0 until states.length())
+            .map { states.getJSONObject(it) }
+            .filter {
+                val deviceClass = it.optJSONObject("attributes")?.optString("device_class")
+                it.getString("entity_id").startsWith("sensor.") && deviceClass in AirQuality.deviceClasses
+            }
+            .map { it.getString("entity_id") }
+            .sorted()
+    }
+
     fun forecast(entityId: String, type: String): JSONArray {
         val body = JSONObject().put("entity_id", entityId).put("type", type)
         val response = JSONObject(request("POST", "/api/services/weather/get_forecasts?return_response", body))

@@ -32,6 +32,8 @@ object WeatherSync {
             locationName = settings.location.ifBlank { config.optString("location_name") },
             zone = runCatching { ZoneId.of(config.optString("time_zone")) }.getOrDefault(ZoneId.systemDefault()),
             now = Instant.now(),
+            airQuality = settings.airQualityEntity.takeIf { it.isNotBlank() }
+                ?.let { runCatching { client.state(it) }.getOrNull() },
         )
         val spec = WeatherMapper.build(input)
         val sent = GadgetbridgeSender.send(context, spec, settings.gadgetbridgePackage)

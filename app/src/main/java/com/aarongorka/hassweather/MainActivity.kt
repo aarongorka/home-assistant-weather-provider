@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding.token.setText(settings.token)
         binding.entity.setText(settings.entity)
         binding.hourly.setText(settings.hourlyEntity)
+        binding.airQuality.setText(settings.airQualityEntity)
         binding.location.setText(settings.location)
         binding.interval.setText(settings.intervalMinutes.toString())
         binding.gbPackage.setText(settings.gadgetbridgePackage)
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         token = binding.token.text.toString(),
         entity = binding.entity.text.toString(),
         hourlyEntity = binding.hourly.text.toString(),
+        airQualityEntity = binding.airQuality.text.toString(),
         location = binding.location.text.toString(),
         intervalMinutes = binding.interval.text.toString().toLongOrNull() ?: Settings.DEFAULT_INTERVAL_MINUTES,
         gadgetbridgePackage = binding.gbPackage.text.toString(),
@@ -52,11 +54,16 @@ class MainActivity : AppCompatActivity() {
     private fun loadEntities() {
         val form = readForm()
         background {
-            val entities = HaClient(form.url, form.token).weatherEntities()
+            val client = HaClient(form.url, form.token)
+            val entities = client.weatherEntities()
+            val airQuality = client.airQualityEntities()
             runOnUiThread {
                 val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, entities)
                 binding.entity.setAdapter(adapter)
                 binding.hourly.setAdapter(adapter)
+                binding.airQuality.setAdapter(
+                    ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, airQuality),
+                )
             }
             getString(R.string.loaded, entities.size)
         }

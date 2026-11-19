@@ -8,6 +8,7 @@ data class Settings(
     val token: String,
     val entity: String,
     val hourlyEntity: String,
+    val airQualityEntity: String,
     val location: String,
     val intervalMinutes: Long,
     val gadgetbridgePackage: String,
@@ -26,6 +27,7 @@ data class Settings(
                 token = prefs.getString("token", "").orEmpty(),
                 entity = prefs.getString("entity", "").orEmpty(),
                 hourlyEntity = prefs.getString("hourly", "").orEmpty(),
+                airQualityEntity = prefs.getString("air_quality", "").orEmpty(),
                 location = prefs.getString("location", "").orEmpty(),
                 intervalMinutes = prefs.getLong("interval", DEFAULT_INTERVAL_MINUTES),
                 gadgetbridgePackage = prefs.getString("package", "").orEmpty(),
@@ -45,6 +47,7 @@ data class Settings(
             putString("token", token.trim())
             putString("entity", entity.trim())
             putString("hourly", hourlyEntity.trim())
+            putString("air_quality", airQualityEntity.trim())
             putString("location", location.trim())
             putLong("interval", intervalMinutes.coerceAtLeast(MIN_INTERVAL_MINUTES))
             putString("package", gadgetbridgePackage.trim())

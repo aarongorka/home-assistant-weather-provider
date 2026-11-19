@@ -78,6 +78,29 @@ class WeatherMapperTest {
     }
 
     @Test
+    fun airQualityFromAqiSensor() {
+        val sensor = JSONObject("""{"state":"42.4","attributes":{"device_class":"aqi"}}""")
+        assertEquals(42, AirQuality.build(sensor)?.getInt("aqi"))
+    }
+
+    @Test
+    fun airQualityFromPm25ConvertsToAqi() {
+        val sensor = JSONObject(
+            """{"state":"35.4","attributes":{"device_class":"pm25","unit_of_measurement":"µg/m³"}}""",
+        )
+        val result = AirQuality.build(sensor)
+        assertEquals(100, result?.getInt("aqi"))
+        assertEquals(35.4, result?.getDouble("pm25") ?: 0.0, 0.001)
+    }
+
+    @Test
+    fun airQualityIgnoresUnavailableSensor() {
+        val sensor = JSONObject("""{"state":"unavailable","attributes":{"device_class":"aqi"}}""")
+        assertEquals(null, AirQuality.build(sensor))
+        assertEquals(false, build().has("airQuality"))
+    }
+
+    @Test
     fun unitConversions() {
         assertEquals(273.15, Units.toKelvin(0.0, "°C"), 0.001)
         assertEquals(255.372, Units.toKelvin(0.0, "°F"), 0.001)

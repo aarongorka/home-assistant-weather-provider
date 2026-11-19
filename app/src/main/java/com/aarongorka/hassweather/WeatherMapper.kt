@@ -21,6 +21,7 @@ data class WeatherInput(
     val locationName: String,
     val zone: ZoneId,
     val now: Instant,
+    val airQuality: JSONObject? = null,
 )
 
 /** Builds the JSON that Gadgetbridge's GenericWeatherReceiver parses into a WeatherSpec. */
@@ -78,6 +79,7 @@ object WeatherMapper {
             (todayItem ?: days.firstOrNull()?.second)?.number("precipitation_probability")?.roundToInt(),
         )
         putSun(json, input.sun)
+        json.putIfPresent("airQuality", AirQuality.build(input.airQuality))
 
         val hourlyUnits = input.hourlyState?.optJSONObject("attributes")?.let(::UnitSet) ?: units
         val hourlyStart = input.now.epochSecond - 3600

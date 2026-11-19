@@ -5,15 +5,11 @@ Android [Gadgetbridge weather provider](https://gadgetbridge.org/basics/integrat
 ## Use
 
 1. Create a long-lived token in Home Assistant (Profile → Security).
-2. Open the app, enter URL and token, tap **Load entities**, pick a `weather.*` entity (and optionally an hourly one).
+2. Open the app, enter URL and token, tap **Load entities**, pick your entities
 3. **Save and enable sync** (periodic, hourly minimum, for battery life).
 4. In Gadgetbridge, enable weather and set a location (Settings → Weather).
 
 Delivery is via Gadgetbridge's generic weather broadcast (`ACTION_GENERIC_WEATHER`).
-
-## Licence
-
-AGPL-3.0-or-later.
 
 ## Build
 

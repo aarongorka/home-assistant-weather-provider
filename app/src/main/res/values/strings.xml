@@ -5,6 +5,7 @@
     <string name="hint_url">Home Assistant URL</string>
     <string name="hint_token">Long-lived access token</string>
     <string name="hint_entity">Weather entity</string>
+    <string name="hint_air_quality">Air quality sensor (optional; AQI, PM2.5 or PM10)</string>
     <string name="hint_hourly">Hourly weather entity (optional)</string>
     <string name="hint_location">Location name (optional)</string>
     <string name="hint_interval">Sync interval (minutes, min 60)</string>
