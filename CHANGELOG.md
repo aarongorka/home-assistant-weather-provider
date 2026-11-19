@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.1.0...v1.2.0) (2026-11-19)
+
+
+### Features
+
+* build with signing keys ([e2fe4ee](https://github.com/aarongorka/home-assistant-weather-provider/commit/e2fe4eea6e75a42890efa6d236a77a18a3254b32))
+
 ## [1.1.0](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.0.1...v1.1.0) (2026-11-19)
 
 
