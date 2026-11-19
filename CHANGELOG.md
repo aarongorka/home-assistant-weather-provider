@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.0.1...v1.1.0) (2026-11-19)
+
+
+### Features
+
+* add AQI sensor ([10f1193](https://github.com/aarongorka/home-assistant-weather-provider/commit/10f1193f1e3e5dadd6e608b12a681e86e98d5d0f))
+
 ## [1.0.1](https://github.com/aarongorka/home-assistant-weather-provider/compare/v1.0.0...v1.0.1) (2026-11-18)
 
 
